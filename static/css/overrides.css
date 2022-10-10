@@ -10,7 +10,7 @@ body.dark a,
   color: #7ecf37;
 }
 
-p {
+p, ul {
   font-size: 1.3rem;
 }
 
@@ -28,6 +28,10 @@ p {
 }
 
 /* Events  */
+
+.section-title.events a {
+  font-size: 1rem;
+}
 
 .event {
   margin: 30px 0 15px;
