@@ -5,12 +5,102 @@
 	
 	<link href="/p/atom.xml" rel="self"/>
 	<link href=""/>
-	<updated>2022-10-23T14:54:32Z</updated>
+	<updated>2022-10-23T21:13:43Z</updated>
 	<id>https://semanticclimate.github.io/</id>
 	<author>
 		<name>#semanticClimate</name>
 		<email></email>
 	</author>
+	
+	<entry>
+		<title>Explaining semantic</title>
+		<link href="/p/en/posts/oaweek_semantic/"/>
+		<updated>2022-10-23T00:00:00Z</updated>
+		<id>/p/en/posts/oaweek_semantic/</id>
+		<content type="html">&lt;h1&gt;What&#39;s semantic?&lt;/h1&gt;
+&lt;p&gt;&amp;quot;semantic&amp;quot; means that at some level machines can &amp;quot;understand&amp;quot; data (in this case text).&lt;/p&gt;
+&lt;h2&gt;example:&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Two countries (China, India) contributed more than 50% to the net
+6.5 GtCO2eqyr-1 increase in GHG emissions during 2010-2019 (at
+39% and 14%, respectively), while ten countries (China, India,
+Indonesia, Vietnam, Iran, Turkey, Saudi Arabia, Pakistan, Russian
+Federation, Brazil) jointly contributed about 75% (Figure 2.9) (see
+also Minx et al., 2021; Crippa et al., 2021).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As a human you understand some of this and not other parts; by default a machine &amp;quot;understands&amp;quot; nothing. It sees
+&lt;code&gt;&amp;quot;T&amp;quot;, &amp;quot;w&amp;quot;, &amp;quot;o&amp;quot;, &amp;quot;c&amp;quot;, &amp;quot;o&amp;quot; ...&lt;/code&gt;
+(no words, no sopaces, no newlines and no understanding of the)
+We need to give it rules (or models) that give it the power to parse this into objects it can process.&lt;/p&gt;
+&lt;h2&gt;syntax&lt;/h2&gt;
+&lt;p&gt;Unfortunately the reports are only available (2022-10) in PDF. Unlike HTML this is very unpleasant to process
+and introduces errors. PDF2HTML is the weakest part of our toolchain. If the authors could make their text-processor
+output available it would be a huge help.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;NLTK&lt;/code&gt; and &lt;code&gt;spaCy&lt;/code&gt; and other tools have methods for parsing sentences and extracting the syntax. Here&#39;s
+an online part of speeh tagger and chunker &lt;a href=&quot;https://www.link.cs.cmu.edu/cgi-bin/link/construct-page-4.cgi#submit&quot;&gt;parser from CMU site&lt;/a&gt; you can try it!
+It gives:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(S (NP (NP Two countries)
+       (SBAR (S (NP China , India)
+                (VP contributed more
+                    (PP than
+                        (NP 50))
+                    (PP to
+                        (NP (QP the net 6.5)
+                            GtCO2eqyr-1))))))
+   (VP increase
+       (PP in
+           (NP GHG emissions))
+       (PP during
+           (NP 2010))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It picks out nouns/noun_phrases (NP)
+&lt;code&gt;/Two countries/ /China , India/ /the net 6.5) GtCO2eqyr-1)/ /GHG emissions/ /2010/&lt;/code&gt;
+(gets one wrong &lt;code&gt;increase&lt;/code&gt; is a noun not a verb). And verbs VP (&lt;code&gt;contributed&lt;/code&gt;), and prepositions (PP)
+but has no idea what they mean.&lt;/p&gt;
+&lt;h2&gt;general semantics&lt;/h2&gt;
+&lt;p&gt;We concentrate on nouns and now add meaning to them.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&lt;code&gt;Two countries&lt;/code&gt;&lt;/em&gt; : &lt;code&gt;NLTK&lt;/code&gt; knows about numbers and also that &lt;code&gt;countries&lt;/code&gt; is the plural of &lt;code&gt;country&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;code&gt;China , India&lt;/code&gt;&lt;/em&gt; : &lt;code&gt;spaCy&lt;/code&gt; knows these are countries&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;code&gt;6.5&lt;/code&gt;&lt;/em&gt; : &lt;code&gt;NLTK&lt;/code&gt; and &lt;code&gt;spaCy&lt;/code&gt; know is a floating point number&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;code&gt;2010&lt;/code&gt;&lt;/em&gt; : the tools know this could be a date&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Wikidata semantics&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&lt;code&gt;GHG&lt;/code&gt;&lt;/em&gt; : we can automatically look this up in Wikidata.org and get:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-greenhouse&quot;&gt;as in an atmosgphere of a planet (usually Earth) that absorbs 
+and emits radiation within the thermal infrared range and 
+causes the greenhouse effect
+48 statements, 81 sitelinks - 07:22, 15 October 2022
+
+Marshfield Municipal Airport (Q650060) : GHG
+airport
+22 statements, 5 sitelinks - 05:58, 3 October 2022
+
+etc.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Wikidata has several entries for &lt;code&gt;GHG&lt;/code&gt;. The top one is what we want, with an &lt;code&gt;identifier&lt;/code&gt; of
+&lt;code&gt;Q167336&lt;/code&gt; . This illustrates &lt;em&gt;ambiguity&lt;/em&gt; - common words and acronyms/abbreviations often have multiple meanings.
+In this case  we could see if the nouns in the &lt;code&gt;description&lt;/code&gt; (&amp;quot;gas&amp;quot;, &amp;quot;atmosphere&amp;quot;, &amp;quot;planet&amp;quot;, &amp;quot;radiation&amp;quot;...)
+are common in the text of the report. That&#39;s one role of our &lt;code&gt;dictionaries&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;report semantics&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;GtCO2eqyr-1&lt;/code&gt; occurs frequently and we can collect these sorts of terms. However they need human interpretation (this is badly
+formatted and should read
+GtCO&lt;sub&gt;2&lt;/sub&gt;eq yr&lt;sup&gt;-1&lt;/sup&gt;. It reads &amp;quot;gigatonnes of carbon dioxide equivalents per year&amp;quot;. We also tackle this
+by creating it as an entry (or synonym) in a climateChange dictionary)&lt;/p&gt;
+&lt;h2&gt;hyperlinks&lt;/h2&gt;
+&lt;p&gt;Hyperlinks are assumed, not explicit.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(Figure 2.9)&lt;/code&gt; is a link to Figure 2.9 (which is not explicitly semantically labelled)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(see also Minx et al., 2021; Crippa et al., 2021).&lt;/code&gt; are 2 links to the bibliography (again needs messy
+heuristics)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;argumentation&lt;/h2&gt;
+&lt;p&gt;We&#39;d like to extract more meaning than just the nouns (&amp;quot;which countries contributed most to the emissions&amp;quot;). There
+are research tools that can address this but they are problem-specific.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Searching for climate knowledge</title>
@@ -20,14 +110,30 @@
 		<content type="html">&lt;h1&gt;OA Week 2022: searching for climate knowledge&lt;/h1&gt;
 &lt;p&gt;There several ways of searching for knowledge. Prepared navigation (e.g. book, movie) is one but is reader-dependent; we concentrate on:&lt;/p&gt;
 &lt;h2&gt;natural language processing (NLP)&lt;/h2&gt;
-&lt;p&gt;This uses mixtures of sets of words (dictionaries), linguistic rules and machine learning to analyse documents. NLP is increasingly multilanguage and has rules for parts of speech, compound words, diacritics, inflexions sentence structure and much more.&lt;/p&gt;
+&lt;p&gt;This uses mixtures of sets of words (dictionaries), linguistic rules and machine learning to analyse
+documents. NLP is increasingly multilanguage and has rules for parts of speech, compound words,
+diacritics, inflexions sentence structure and much more.&lt;/p&gt;
 &lt;h2&gt;keyword (supervised) search&lt;/h2&gt;
 &lt;p&gt;The commonest way of searching (Google, Bing, etc.). It usually relies on the content being text, or indexed into text. For specific terms (e.g. names,
 scientific objects) it can be precise but for general terms (e.g. &amp;quot;justice&amp;quot;) it can be very broad. Often the precise term doesn&#39;t occur in the
 article and we need synonyms (e.g. &amp;quot;nitrous oxide&amp;quot; is a synonym for &amp;quot;N2O&amp;quot;).
 We tackle this by creating a large expandable set of &lt;strong&gt;dictionaries&lt;/strong&gt; with precise terms, synonyms and translations which are used for &lt;strong&gt;supervised&lt;/strong&gt; search. We use NLP tools and Wikidata to help precision (e.g. &lt;em&gt;stemming&lt;/em&gt; and &lt;em&gt;lexemes&lt;/em&gt;)&lt;/p&gt;
 &lt;h2&gt;unsupervised search&lt;/h2&gt;
-&lt;p&gt;When we don&#39;t know what the content is like or what we should search for, we use &lt;strong&gt;unsupervised&lt;/strong&gt; search. &amp;quot;Tell me the most important terms in this document&amp;quot;, &amp;quot;which documents are most similar to each other&amp;quot;. We use Natura&lt;/p&gt;
+&lt;p&gt;When we don&#39;t know what the content is like or what we should search for, we use &lt;strong&gt;unsupervised&lt;/strong&gt;
+search. &amp;quot;Tell me the most important terms in this document&amp;quot;, &amp;quot;which documents are most similar to
+each other&amp;quot;. We use NLP tools to identify tokens (words, phrases and sentences) and parse them (e.g. finding parts
+of speech (PoS tagging)). A common ML approach is to measure the lexical or linguistic distance (similarity) between
+tokens and create clusters of tokens. (To understand clustering create an &lt;a href=&quot;https://openknowledgemaps.org&quot;&gt;OpenKnowledgeMap&lt;/a&gt; which
+analyses Open Access documents).&lt;/p&gt;
+&lt;h2&gt;Toolkits and material&lt;/h2&gt;
+&lt;p&gt;Over the last 10-20 yeards there has been a huge increase in cutting-edge Open NLP tools: wordlists, parsers, ML tools.
+These exist in most common languages (Java, C++, R); here we use Python which is very comprehensive (and often
+wraps the C++ or Java tools). Most of the functionality is in &lt;code&gt;nltk&lt;/code&gt; or &lt;code&gt;spaCy&lt;/code&gt; and these can be automatically
+called from our tool &lt;code&gt;docanalysis&lt;/code&gt; (created by Shweata N Hegde). (Think of &lt;code&gt;nltk&lt;/code&gt; , &lt;code&gt;spaCy&lt;/code&gt; as components (gearbox, wheels) and
+&lt;code&gt;docanalysis&lt;/code&gt; as a finished vehicle). There are more than 50 components in our tools all of which are automatically
+loaded/installed into your machine or Colab. These components provide different ways of searching; an example is abbreviations&lt;/p&gt;
+&lt;h2&gt;abbreviations&lt;/h2&gt;
+&lt;p&gt;(more later)&lt;/p&gt;
 </content>
 	</entry>
 	
@@ -77,6 +183,72 @@ To answer this we rely heavily on Wikimedia: Wikipedia and Wikidata. You can thi
 &lt;li&gt;analyse results with &lt;code&gt;docanalysis&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We&#39;ll try to create a video and blog/tutorial for each of these.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Communication within semanticClimate</title>
+		<link href="/p/en/posts/oaweek_communication/"/>
+		<updated>2022-10-22T00:00:00Z</updated>
+		<id>/p/en/posts/oaweek_communication/</id>
+		<content type="html">&lt;h1&gt;Basis of collaboration&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;#semanticClimate&lt;/code&gt; is essentially a bottom-up, volunteer, meritocratic project. We share the need to create
+working systems where different people contribute a variety of tools and functionality. This is common in OpenSource
+projects but requires communal discipline:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;we need to know what each of us is doing&lt;/li&gt;
+&lt;li&gt;we can help each other find and overcome problems&lt;/li&gt;
+&lt;li&gt;we need to know that the pieces fit together and work properly.&lt;/li&gt;
+&lt;li&gt;we need to interact with the outside world, especially those who want to use the tools&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We communicate both &lt;em&gt;synchronously&lt;/em&gt; (2 or more people talking in a group) and &lt;em&gt;asynchronously&lt;/em&gt; where we leaves messages
+that can be answered, re-answered, etc.&lt;/p&gt;
+&lt;p&gt;This is not trivial. The world has created a variety of tools and here are the ones we have found most useful.
+Access rights are always a problem (we have been Zoom-bombed; not fun).&lt;/p&gt;
+&lt;h1&gt;Asynchronous&lt;/h1&gt;
+&lt;h2&gt;Open Notebook Science&lt;/h2&gt;
+&lt;p&gt;As far as possible everything we do is available to the outside world as soon as it is done and is permanent.
+See &lt;a href=&quot;https://en.wikipedia.org/wiki/Open-notebook_science&quot;&gt;Open Notebook Science&lt;/a&gt;. The methods we use include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Github repositories (mainly code and documents)&lt;/li&gt;
+&lt;li&gt;Github Issues (mainly for problems, e.g. bugs)&lt;/li&gt;
+&lt;li&gt;Jupyter/Colab Notebooks (mainly for learning and simple prototyping)&lt;/li&gt;
+&lt;li&gt;Github Discussions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;openVirus Slack&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;(openVirus is a historic name where semanticCliamte is discussed)&lt;/em&gt;
+Slack is neither permanent nor public. We use it internally for rapid ephemeral messages but the unpaid Slack dies
+after ca. 2 months. If you want to join the project more permanently we can add your email.&lt;/p&gt;
+&lt;h2&gt;Etherpad&lt;/h2&gt;
+&lt;p&gt;This is a very ephemeral shared (text) pad without structure that &lt;em&gt;anyone&lt;/em&gt; can write on. It preserves history (character-by-character).
+It uses security-by-obscurity (i.e. the URL is not discoverable by chance) and is effortless to use. It&#39;s very useful for things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;interchanging URLs&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;making ad hoc lists&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;introductions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;text-cut-and-paste&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Regard all content as public.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;We&#39;ll open an Etherpad for the duration of the OpenAccess Week, and delete a few days after&lt;/strong&gt;&lt;/em&gt;.
+If you want something, copy it somewhere safe.&lt;/p&gt;
+&lt;h1&gt;Synchronous&lt;/h1&gt;
+&lt;p&gt;We use Skype, Teams (when we have to) but for OAWeek we only use:&lt;/p&gt;
+&lt;h2&gt;Zoom&lt;/h2&gt;
+&lt;p&gt;We&#39;ve used many tools over the years, e.g. Discord, Gathertown (fun tool) but generally use Zoom in paid-for mode (University of Cambridge).
+Sometimes we use &lt;em&gt;breakout rooms&lt;/em&gt; where separate conmversations can take place but for OAWeek we&#39;d plan to have just the
+main room. Zoom Chat is ephemeral - dispappears after the session - (and tricky to copy). You&#39;ll need an invite from us.
+PM-R is guaranteeing to be present at 1230 UTC each day. If there is a critucal mass of people at other times we can
+open an impromptu session.&lt;/p&gt;
 </content>
 	</entry>
 </feed>
