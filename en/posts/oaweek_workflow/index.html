@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tagged “open access week” | #semanticClimate</title>
+  <title>Workflow for semanticClimate | #semanticClimate</title>
   <meta name="description" content="Liberating knowledge from climate-related reports">
 
   <link rel="shortcut icon" href="/p/static/img/favicon.ico" type="image/x-icon">
@@ -73,53 +73,44 @@
 </nav>
 
   
-
-
 <div class="container">
-  <h1>Tagged “open access week”</h1>
-
+  <h1>Workflow for semanticClimate</h1>
   
-  <section>
-  
-  
-    <article class="post">
-      <h3>
-        <a href="/p/en/posts/oaweek_intro/">
-          
-            Introduction to semanticClimate
-          
-        </a>
-      </h3>
-      
-        <p class="text-lg text-gray-500 mb-3">
-          Overview of the range of tools, content and activities
-        </p>
-      
-
-      <div class="card__tags">
-        <time>22 Oct, 2022</time> 
+    
+      <div class="post-meta">
+        <time>23 Oct, 2022</time>
         <span class="post-author">by Peter Murray-Rust</span>
-
-        
-          
-        
-          
-            <a href="/p/en/tags/introduction">introduction</a>
-          
-        
-          
-            <a href="/p/en/tags/open-access-week">open access week</a>
-          
-        
       </div>
-    </article>
+    
   
-</section>
+    
+  
 
-  <p>See <a href="/p/en/tags/">all tags</a>.</p>
+  <h1>Steps in processing a Chapter</h1>
+<p>We assume</p>
+<h2>PDF2HTML</h2>
+<p>The raw chapter is in PDF which requires messy heuristic processing into HTML. We have done this for a small
+number of chapters and will be automating it as soon as we can. Here's a typical chunk.</p>
+<p><img src="./assets/chap02.png"/> <!-- check this --></p>
+<p>There are no words, lines, paragraphs in PDF. The tools usually guess right but here there's a problem of the
+top and left margins. We have to set clipping boxes. Sometimes these haven't worked. But generally we can get HTML
+(although things like font styles, subscripts, etc. are often trashed.</p>
+
+
+  
+    <div class="card__tags">
+      
+        
+      
+        
+          <a href="/p/en/tags/oaweek">oaweek</a>
+        
+      
+    </div>
+  
+  <br>
+  <a href="javascript:history.back()">&larr; Back</a>
 </div>
-
-
   <footer class="footer">
   <p>
     <a href="gdpr">Privacy Policy & GDPR</a> | 
