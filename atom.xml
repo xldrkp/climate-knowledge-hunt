@@ -5,12 +5,182 @@
 	
 	<link href="/p/atom.xml" rel="self"/>
 	<link href=""/>
-	<updated>2023-08-14T07:17:18Z</updated>
+	<updated>2023-10-04T13:34:49Z</updated>
 	<id>https://semanticclimate.github.io/</id>
 	<author>
 		<name>#semanticClimate</name>
 		<email></email>
 	</author>
+	
+	<entry>
+		<title>Introduction to SemanticClimate tools in Berlin Barcamp</title>
+		<link href="/p/en/posts/barcamp_post3/"/>
+		<updated>2023-09-20T00:00:00Z</updated>
+		<id>/p/en/posts/barcamp_post3/</id>
+		<content type="html">&lt;p&gt;&amp;quot;Explore the interactive tools and code snippets in Colab notebook by following this link: &lt;a href=&quot;https://colab.research.google.com/drive/12ixmez8zh288hBGzwWmBaj29leeuQRD7#scrollTo=THyLJArMaLDi&quot;&gt;Colab Notebook for climate justice&lt;/a&gt; for extracting climate information from the available literature. You can experiment with the input query in the provided code, visualize data, and run analyses directly in your browser. Have fun exploring!&amp;quot;&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>The sources that SemanticClimate can use for Climate Justice</title>
+		<link href="/p/en/posts/barcamp-post2/"/>
+		<updated>2023-09-19T00:00:00Z</updated>
+		<id>/p/en/posts/barcamp-post2/</id>
+		<content type="html">&lt;p&gt;&lt;em&gt;A lightly edited transcript of a conversation between Waheb Mehdi and Peter Murray-Rust 2023-09-13 . Discussing what might happen and what resources might be used. However it&#39;s also a general overview of what #sC can offer any community or project&lt;/em&gt;
+&lt;em&gt;P:&lt;/em&gt; Can you tell us about your ideas for extracting knowledge on climate justice particularly with reference to the Berlin Barcamp, which is in a weeks time.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;W:&lt;/em&gt; What I&#39;m aiming to do is I&#39;m aiming to build a beginner friendly project which would take climate justice reports from different parts of the world and using semanticclimate tools such as &lt;code&gt;pyamihtml&lt;/code&gt;, and &lt;code&gt;docanalysis&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We could first of all, we could convert the PDF documents of climate justice reports into HTML and we could use &lt;code&gt;docanalysis&lt;/code&gt; to section those HTML documents into different parts like the &lt;em&gt;introduction&lt;/em&gt; , the conclusion as far as I know, do analysis also has the feature to extract keywords from the reports.&lt;/p&gt;
+&lt;p&gt;it could also generate some &lt;strong&gt;summaries&lt;/strong&gt; and &lt;strong&gt;summary statistics&lt;/strong&gt; like how many times a certain keyword is occurring in the report.
+we could use that data and represent that as graphs, using Python, using Python libraries like &lt;code&gt;matplotlib&lt;/code&gt;, maybe something else.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;P:&lt;/em&gt; Well, that&#39;s a fantastic idea.
+Let me add some &lt;strong&gt;technical observations&lt;/strong&gt;.
+First of all, for next week, we&#39;re probably going to be limited either to the open access literature or to the text of the IPCC projects that you&#39;ve been looking at. and we won&#39;t know which is most tractable. The current toolkit &lt;code&gt;pygetpapers&lt;/code&gt; will retrieve the open access literature.
+We can look for say, &lt;strong&gt;&amp;quot;climate justice in West Africa&amp;quot;&lt;/strong&gt; and that will retrieve a number of papers, maybe a few 100.
+and we might then want to cut it down by date or or something of that sort.
+When we&#39;ve got those papers, they go into &lt;code&gt;docanalysis&lt;/code&gt; which will analyze them for words.&lt;/p&gt;
+&lt;p&gt;There are two ways that it does this, &lt;em&gt;supervised learning&lt;/em&gt; and &lt;em&gt;unsupervised learning&lt;/em&gt;.
+if we&#39;ve got a list of words we&#39;re interested in, we can look for those. let&#39;s say that we have a vocabulary of climate justice terms we can see which of the papers contain those words because they won&#39;t always use the term &amp;quot;&lt;strong&gt;climate justice&lt;/strong&gt;&amp;quot;.
+They might talk about &amp;quot;&lt;strong&gt;loss and damage&lt;/strong&gt;&amp;quot; or &amp;quot;&lt;strong&gt;climate inequity&lt;/strong&gt;&amp;quot;.&lt;/p&gt;
+&lt;p&gt;A very good way of classifying papers is to find out what words they contain.
+&lt;em&gt;unsupervised analysis&lt;/em&gt; is when you ask the tool to cluster objects so you can categorize them.
+&lt;code&gt;spacy&lt;/code&gt; which is what &lt;code&gt;docanalysis&lt;/code&gt; runs has got several methods.
+One method is that it&#39;s pre trained on a number of concepts so we can look for things like countries or organizations and &lt;code&gt;spacy-docanalysis&lt;/code&gt; will come up with those.
+We couldn&#39;t, for example, look for &amp;quot;justice&amp;quot; using that.
+An unsupervised method is to cluster the words in a text by a number of metrics, e.g. which words co-occur with other words.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;W:&lt;/em&gt; are we going to use supervised approach or supervised approach?
+&lt;em&gt;P:&lt;/em&gt; I think I think we already use both. But if we have a climate dictionary, that will be very powerful in looking for the concepts we&#39;re interested in.
+&lt;em&gt;W:&lt;/em&gt;  Mhm So that means that we do unsupervised at the moment.
+&lt;em&gt;P:&lt;/em&gt; we can do supervised if we have dictionaries. one way to get dictionaries is actually to do a search of the literature.
+and then use &lt;code&gt;docanalysis&lt;/code&gt; to group the words we get out and then decide if we feel that those words are representative of climate justice.
+at the same time, we can also link them to Wikipedia and Wikidata.
+Does that make sense?
+&lt;em&gt;W:&lt;/em&gt; Sure.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;P:&lt;/em&gt; we&#39;ve got several different methods. All of these are what you might call research so that we don&#39;t know which of these is going to work. But I think I would be fairly confident in getting a word list which can be turned into a semantic dictionary.
+We have tools for that and I&#39;d be fairly optimistic that docanalysis could extract those sentences which had these which had these terms in so that you could find out how people were using the terms.
+yeah.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;W:&lt;/em&gt; what happens after we create these dictionaries?
+Would that be our end goal or can we do something with the dictionaries?
+&lt;em&gt;P:&lt;/em&gt; First of all, what we do at barcamp depends on what we can offer. the people who turn up.
+let&#39;s assume that we&#39;ve got people interested in climate justice and people who are able to run Python programs and they get together in a group so that any question can be put into the system and we&#39;ll find out whether that method works or not during that.
+We&#39;ll certainly come up with a list of terms and we&#39;ll look those up in wiki data because that gives us a link back into all the Wikimedia support of that.
+if you&#39;ve got something like climate justice, you can go to the wiki data page on it, the Wikimedia, the Wikipedia page on it, you can find diagrams which relate to it, you can find papers which are about it and so forth.
+wikidata, for example, has got a list of open access papers.
+and that&#39;s a very good way into the literature. what we want to do is describe this before the meeting, work on the tools and make sure that they run and then see what the barcampers want to do with them.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;P:&lt;/em&gt;
+I&#39;m hoping that this will persist after this.
+the bar campers are a way of alpha testing whether this is a useful way forward.
+currently, the focus is that we can get all of the three tools to work on the Climate Justice in the scholarly literature and IPCC reports.
+we don&#39;t yet know which parts of the IPCC report contain information on climate justice. They have to be converted into html first of all.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Discussion aboout where to find Climate Justice in IPCC is chopped&lt;/em&gt;
+...But the problem is those reports may not be very easy to read because they&#39;ll be in PDF and the PDF is still not very easy to convert.
+*W: * if we can turn them into HTML, that would be really good.
+&lt;em&gt;P:&lt;/em&gt; Right.
+&lt;em&gt;W:&lt;/em&gt; we could also try to search for climate justice related concepts in the &lt;strong&gt;IPCC AR6&lt;/strong&gt; reports.
+&lt;em&gt;P:&lt;/em&gt; I think it would be very valuable if you could manually browse the IPCC AR6 reports and find out where there&#39;s information on climate change.
+There is an index created by IPCC.
+It&#39;s not hyperlinked.
+I would look in WG2 which is about adaptation because that I think may have climate justice.
+It may also occur in WG3 which is about mitigation,
+But does that cover roughly the your idea?
+&lt;em&gt;W:&lt;/em&gt; It does, we could find a climate justice related text in the IPCC AR6 reports and maybe we could just apply the tools on those specific sections and see what we can come up with.
+&lt;em&gt;P:&lt;/em&gt; That might well work.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Introduction to SemanticClimate in Berlin Barcamp</title>
+		<link href="/p/en/posts/barcamp-post1/"/>
+		<updated>2023-09-15T00:00:00Z</updated>
+		<id>/p/en/posts/barcamp-post1/</id>
+		<content type="html">&lt;p&gt;This is the first of several blog posts which will help Barcamprs to understand what &lt;a href=&quot;https://semanticclimate.org/p/en/&quot;&gt;#semanticClimate&lt;/a&gt; does and what we offer to the camp. Some are recorded from conversations in the group.&lt;/p&gt;
+&lt;p&gt;(&lt;strong&gt;Peter Murray-Rust&lt;/strong&gt;)&lt;/p&gt;
+&lt;p&gt;Semantic climate is a group of people mainly in India but distributed across the world who are committed to creating knowledge about climate in a form that both humans and machines can understand.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We&#39;ve been going for about three years as a community.&lt;/li&gt;
+&lt;li&gt;We are single mindedly looking at climate knowledge; how to create it; how to disseminate it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We know that the world is desperate for knowledge about climate. I attended a workshop two days ago in Cambridge of ordinary citizens, not specialists, who really wanted to know about climate. They were working within the framework of a worldwide group, &lt;a href=&quot;https://climatefresk.org/&quot;&gt;Climatefresk&lt;/a&gt; , who&#39;d created a game where you can use cards to steer through the information on climate.&lt;/p&gt;
+&lt;p&gt;It was great, fun, intense.
+But what I realized from that was that a million people had been through this system and there were 50,000 people who were trained to deliver these workshops. Those are huge numbers.&lt;/p&gt;
+&lt;p&gt;People really need climate knowledge.
+They&#39;re not getting it from from some of the sources that we might expect.
+In SemanticClimate we&#39;re dedicated to finding reliable sources and transforming them into components that people can understand.
+We work both asynchronously and synchronously. We use &lt;strong&gt;Slack&lt;/strong&gt; on a daily basis and we&#39;ve got probably about twenty people who are active on that Slack. But frequently we also synchronously hook up using Zoom, often on a daily basis.&lt;/p&gt;
+&lt;p&gt;We &lt;strong&gt;learn by doing&lt;/strong&gt;.
+If there are things we don&#39;t understand, we see if we can find resources on the web which we believe in.
+That&#39;s particularly true of using new software. We don&#39;t wait to be taught how to do it.
+We go out and do it and see what works.
+It&#39;s also true of knowledge. If we don&#39;t understand subject such as &lt;strong&gt;climate justice&lt;/strong&gt; (our subject in Berlin), we use reliable sources which we&#39;ll tell you about those later.&lt;/p&gt;
+&lt;p&gt;We also have a strong &lt;strong&gt;tool based approach&lt;/strong&gt;. We&#39;ve created some of our own tools:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;tools for automatically downloading the literature,&lt;/li&gt;
+&lt;li&gt;tools for extracting words and phrases out of it,&lt;/li&gt;
+&lt;li&gt;tools for organizing it, clustering it,  making it more understandable.
+And we also use existing tools, for downloading, analysing, reorganizing and displaying.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We are very strong believers in &lt;strong&gt;Wikimedia&lt;/strong&gt; (of course we are meeting in Wikimedia DE. Thanks!).
+You all know Wikipedia. But there&#39;s also a huge amount of information in Wikidata.
+Think of Wikidata as all the structured, annotated information in Wikipedia pages. And add a huge amount from public open databases, such as genes, proteins, people, places and much more. Every Wikipedia page has a Wikidata item that gives information about the knowledge that&#39;s been collected for that subject.
+It&#39;s got pointers to the terms in different languages.
+It&#39;s got the formal knowledge representation of the terms.
+There&#39;s lots of geospatial data.
+and chemistry
+and species
+and ...
+and climate?&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://semanticclimate.org/p/en/&quot;&gt;SemanticClimate&lt;/a&gt; are a hybrid group.
+At the Barcamp, &lt;strong&gt;Simon Worthington&lt;/strong&gt; and &lt;strong&gt;Peter Murray Rust&lt;/strong&gt; are going to be in Berlin. but there are going to be people attending online mainly from India and another countries.
+They&#39;ll be taking part in the barcamp as well.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First we&#39;d love to discuss &lt;strong&gt;climate justice&lt;/strong&gt;. What you know and want to know. Can we create knowledge  from sources?&lt;/li&gt;
+&lt;li&gt;Then we&#39;ll make our tools available, to find out about climate justice in our resources.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;One of our main resources is the &lt;a href=&quot;https://www.ipcc.ch/&quot;&gt;United Nations International Panel on Climate Change IPCC&lt;/a&gt;. That&#39;s a huge resource, but it&#39;s 15,000 pages. you need tools to navigate it. We&#39;ve done that. We&#39;ll be showing you how to explore the Open Science Literature that&#39;s made available through Europe PUBMED Central. Tens of millions of papers. We show you how our tools can automatically search it download hundreds of papers. then we can analyze them using the tools that we&#39;ve created, and Pandas and Matplotlib.&lt;/p&gt;
+&lt;p&gt;Hopefully, we&#39;ll be able to come up with new ideas. Possibly even new tools, and ones that we didn&#39;t know about.
+And of course everything is &lt;strong&gt;OpenNotebookScience&lt;/strong&gt;&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Event Report | Open Science and SDGs (ISOSC 2023), Beijing, China</title>
+		<link href="/p/en/posts/isosc_event_report/"/>
+		<updated>2023-09-04T00:00:00Z</updated>
+		<id>/p/en/posts/isosc_event_report/</id>
+		<content type="html">&lt;p&gt;&lt;a href=&quot;https://semanticclimate.org/p/en/&quot;&gt;#semanticclimate&lt;/a&gt; Team has presented their work in 1 hr session on open science and SDGs in the ISOSC training workshop through online plateform. The work showcased were mainly the pre-recorded videos by the different team members.&lt;/p&gt;
+&lt;p&gt;In this series of &lt;a href=&quot;https://www.youtube.com/playlist?list=PLtKHReMoCMwl3taR18VfvuUHJTO0Cs92y&quot;&gt;informative videos&lt;/a&gt;, you&#39;ll find discussions on simplifying IPCC climate reports, complete with insights into the tools that streamline the process of climate data extraction. It also displays the sessions where experts sharing their experiences working with different IPCC chapters and making it a valuable resource for researchers and climate enthusiasts.&lt;/p&gt;
+&lt;h3&gt;Here are some videos showcasing various sessions in the CODATA China event.&lt;/h3&gt;
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px; margin-bottom: 20px;&quot;&gt;
+  &lt;iframe width=&quot;250&quot; height=&quot;200&quot; src=&quot;https://www.youtube.com/embed/x2uxx-ZfXng&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+  &lt;div&gt;
+    &lt;h5 style=&quot;font-size: 1.2rem; font-family: -apple-system,BlinkMacSystemFont,&quot; Segoe=&quot;&quot; UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=&quot;&quot; Color=&quot;&quot; Emoji&quot;,&quot;Segoe=&quot;&quot; UI=&quot;&quot; Symbol&quot;;=&quot;&quot; color:=&quot;&quot; #000000;=&quot;&quot;&gt;It &quot;NEVER&quot; Rains in Ladakh | feat. Shiwani Yadav&lt;/h5&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px; margin-bottom: 20px;&quot;&gt;
+  &lt;iframe width=&quot;250&quot; height=&quot;200&quot; src=&quot;https://www.youtube.com/embed/zKs-qEggg7Y&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+  &lt;div&gt;
+    &lt;h5 style=&quot;font-size: 1.2rem; font-family: -apple-system,BlinkMacSystemFont,&quot; Segoe=&quot;&quot; UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=&quot;&quot; Color=&quot;&quot; Emoji&quot;,&quot;Segoe=&quot;&quot; UI=&quot;&quot; Symbol&quot;;=&quot;&quot; color:=&quot;&quot; #000000;=&quot;&quot;&gt;Can New York Carbon Capture Apply to Mumbai? | ft. Mahvish&lt;/h5&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px; margin-bottom: 20px;&quot;&gt;
+  &lt;iframe width=&quot;250&quot; height=&quot;200&quot; src=&quot;https://www.youtube.com/embed/Pz3ne1JnOt8&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+  &lt;div&gt;
+    &lt;h5 style=&quot;font-size: 1.2rem; font-family: -apple-system,BlinkMacSystemFont,&quot; Segoe=&quot;&quot; UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=&quot;&quot; Color=&quot;&quot; Emoji&quot;,&quot;Segoe=&quot;&quot; UI=&quot;&quot; Symbol&quot;;=&quot;&quot; color:=&quot;&quot; #000000;=&quot;&quot;&gt;IPCC AR6 Synthesis Report Structure Explained | ft. Waheb Mehdi&lt;/h5&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px; margin-bottom: 20px;&quot;&gt;
+  &lt;iframe width=&quot;250&quot; height=&quot;200&quot; src=&quot;https://www.youtube.com/embed/4GjNfsQb200&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+  &lt;div&gt;
+    &lt;h5 style=&quot;font-size: 1.2rem; font-family: -apple-system,BlinkMacSystemFont,&quot; Segoe=&quot;&quot; UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=&quot;&quot; Color=&quot;&quot; Emoji&quot;,&quot;Segoe=&quot;&quot; UI=&quot;&quot; Symbol&quot;;=&quot;&quot; color:=&quot;&quot; #000000;=&quot;&quot;&gt;Food security IPCC SRCCL | Feat. Dr Yasin JK&lt;/h5&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px; margin-bottom: 20px;&quot;&gt;
+  &lt;iframe width=&quot;250&quot; height=&quot;200&quot; src=&quot;https://www.youtube.com/embed/jEEMxC1V0n4&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+  &lt;div&gt;
+    &lt;h5 style=&quot;font-size: 1.2rem; font-family: -apple-system,BlinkMacSystemFont,&quot; Segoe=&quot;&quot; UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=&quot;&quot; Color=&quot;&quot; Emoji&quot;,&quot;Segoe=&quot;&quot; UI=&quot;&quot; Symbol&quot;;=&quot;&quot; color:=&quot;&quot; #000000;&quot;=&quot;&quot;&gt;Knowledge Graph Explained by Prof. Peter Murray-Rust&lt;/h5&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Testpost</title>
